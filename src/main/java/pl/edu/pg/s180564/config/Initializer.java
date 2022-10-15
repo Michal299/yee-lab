@@ -4,6 +4,7 @@ import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.entity.UserRoleType;
 import pl.edu.pg.s180564.user.service.UserService;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
@@ -16,7 +17,8 @@ import java.util.List;
 public final class Initializer {
 
     private final UserService userService;
-
+    @Resource(name="java:app/env/")
+    private String avatarsLocalization;
     @Inject
     public Initializer(final UserService userService) {
         this.userService = userService;
@@ -27,6 +29,10 @@ public final class Initializer {
     }
 
     private synchronized void init() {
+        initializeMockUsers();
+    }
+
+    private void initializeMockUsers() {
         final List<User> users = List.of(
                 new User("jhalpert",
                         "pam1234",

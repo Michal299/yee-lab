@@ -26,7 +26,7 @@ public class AvatarServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final var path = ServletUtil.getRequestPath(req);
 
         if (path.isEmpty() || !path.matches(UserServlet.Patterns.USER)) {
@@ -38,7 +38,7 @@ public class AvatarServlet extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final var path = ServletUtil.getRequestPath(req);
         if (path.isEmpty() || !path.matches(UserServlet.Patterns.USER)) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);

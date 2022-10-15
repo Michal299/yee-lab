@@ -3,14 +3,13 @@ package pl.edu.pg.s180564.user.service;
 import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.repository.UserRepository;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +18,8 @@ public class UserService {
 
     private UserRepository userRepository;
 
+    @Resource(name = "avatars.localization")
+    private String avatarsLocation;
     @Inject
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -79,7 +80,7 @@ public class UserService {
     }
 
     private void saveAvatar(final String userId, final InputStream avatarInputStream) {
-        final var path = Paths.get(userId + ".png");
+        final var path = Path.of(avatarsLocation, userId + ".png");
         try {
             if (!Files.exists(path)) {
                 Files.createFile(path);
