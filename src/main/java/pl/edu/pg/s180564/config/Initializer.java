@@ -17,8 +17,6 @@ import java.util.List;
 public final class Initializer {
 
     private final UserService userService;
-    @Resource(name="java:app/env/")
-    private String avatarsLocalization;
     @Inject
     public Initializer(final UserService userService) {
         this.userService = userService;
@@ -63,7 +61,6 @@ public final class Initializer {
     }
 
     private byte[] getResourceAsByteArray(String name) {
-        System.out.println("Reading: " + name);
         try (InputStream is = this.getClass().getResourceAsStream(name)) {
             return is.readAllBytes();
         } catch (IOException e) {
