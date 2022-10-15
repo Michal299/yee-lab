@@ -2,4 +2,52 @@ GET http://localhost:9080/yee-lab/api/1/users
 
 ###
 
-GET http://localhost:9080/yee-lab/api/1/users/mscott
+GET http://localhost:9080/yee-lab/api/1/users/mscott/
+
+###
+
+GET http://localhost:9080/yee-lab/api/1/avatars/mscott/
+
+###
+
+GET http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+
+###
+
+GET http://localhost:9080/yee-lab/api/1/avatars/
+
+###
+
+PUT http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="pbeasly.png"
+
+< ../../src/main/resources/pl/edu/pg/s180564/config/avatars/pbeasly.png
+--boundary--
+
+###
+
+DELETE http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+
+###
+
+PUT http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="jhalpert.png"
+
+< ../../src/main/resources/pl/edu/pg/s180564/config/avatars/jhalpert.png
+--boundary--
+
+###
+POST http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="jhalpert.png"
+
+< ../../src/main/resources/pl/edu/pg/s180564/config/avatars/jhalpert.png
+--boundary--

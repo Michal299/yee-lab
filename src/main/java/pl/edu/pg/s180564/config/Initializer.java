@@ -34,11 +34,12 @@ public final class Initializer {
                         getResourceAsByteArray("avatars/jhalpert.png"),
                         UserRoleType.USER),
 
-                new User("dschrute",
-                        "zaq12wsx3edcv",
-                        "dschrute@office.com",
+                new User("pbeasly",
+                        "jim4321",
+                        "pbeasly@office.com",
                         getResourceAsByteArray("avatars/pbeasly.png"),
                         UserRoleType.USER),
+
                 new User("dschrute",
                         "zaq12wsx3edcv",
                         "dschrute@office.com",
