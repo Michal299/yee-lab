@@ -1,0 +1,5 @@
+GET http://localhost:9080/yee-lab/api/1/users
+
+###
+
+GET http://localhost:9080/yee-lab/api/1/users/mscott

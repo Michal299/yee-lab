@@ -1,12 +1,13 @@
 package pl.edu.pg.s180564.ticket;
 
 import pl.edu.pg.s180564.project.Project;
-import pl.edu.pg.s180564.user.User;
+import pl.edu.pg.s180564.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Ticket {
+    private final String ticketKey;
     private final String summary;
     private final String description;
     private final User creator;
@@ -15,13 +16,15 @@ public class Ticket {
     private final Project project;
     private final PriorityType priorityType;
 
-    public Ticket(final String summary,
+    public Ticket(final String ticketKey,
+                  final String summary,
                   final String description,
                   final User creator,
                   final User assignee,
                   final LocalDateTime creationTime,
                   final Project project,
                   final PriorityType priorityType) {
+        this.ticketKey = ticketKey;
         this.summary = summary;
         this.description = description;
         this.creator = creator;
@@ -29,6 +32,10 @@ public class Ticket {
         this.creationTime = creationTime;
         this.project = project;
         this.priorityType = priorityType;
+    }
+
+    public String getTicketKey() {
+        return ticketKey;
     }
 
     public String getSummary() {
@@ -64,7 +71,8 @@ public class Ticket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return Objects.equals(summary, ticket.summary)
+        return Objects.equals(ticketKey, ticket.ticketKey)
+                && Objects.equals(summary, ticket.summary)
                 && Objects.equals(description, ticket.description)
                 && Objects.equals(creator, ticket.creator)
                 && Objects.equals(assignee, ticket.assignee)
@@ -75,7 +83,8 @@ public class Ticket {
 
     @Override
     public int hashCode() {
-        return Objects.hash(summary,
+        return Objects.hash(ticketKey,
+                summary,
                 description,
                 creator,
                 assignee,
@@ -87,7 +96,8 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{" +
-                "summary='" + summary + '\'' +
+                "ticketKey=" + ticketKey +
+                ", summary='" + summary + '\'' +
                 ", description='" + description + '\'' +
                 ", creator=" + creator +
                 ", assignee=" + assignee +

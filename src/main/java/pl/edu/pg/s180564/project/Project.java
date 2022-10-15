@@ -1,7 +1,7 @@
 package pl.edu.pg.s180564.project;
 
 import pl.edu.pg.s180564.ticket.Ticket;
-import pl.edu.pg.s180564.user.User;
+import pl.edu.pg.s180564.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
