@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:view>
+    <h:head>
+        <meta charset="UTF-8"/>
+        <meta name="description" content="Simple ToDo app with projects support"/>
+        <meta name="keywords" content="todo"/>
+        <meta name="author" content="Michał Błajet"/>
+        <title>ToDo App</title>
+    </h:head>
+
+    <h:body>
+        <div class="container">
+            <div class="header">
+                <h1>ToDo App</h1>
+            </div>
+
+            <nav class="navigation-bar">
+                <ul>
+                    <li><h:link outcome="/index.xhtml">Main</h:link></li>
+                    <li><h:link outcome="/project/project_list.xhtml">Projects</h:link></li>
+                    <li><h:link outcome="/about/about.xhtml">About</h:link></li>
+                </ul>
+            </nav>
+
+            <section class="main-section">
+                <ui:insert name="content"/>
+            </section>
+
+            <footer>
+                <p>Copyrights &#169; Michał Błajet</p>
+            </footer>
+        </div>
+    </h:body>
+</f:view>
+
+
+</html>
