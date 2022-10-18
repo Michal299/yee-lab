@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+   <f:metadata>
+      <f:viewParam name="projectKey" value="#{projectView.projectKey}" required="true"/>
+      <f:viewAction action="#{projectView.init()}"/>
+   </f:metadata>
+   <ui:define name="content">
+      <h:panelGroup>
+         <article class="text--justified">
+            <div>
+               <div>
+                  <b>Project key: </b> <h:outputText value="#{projectView.project.projectKey}"/>
+               </div>
+               <div>
+                  <b>Project name: </b><h:outputText value="#{projectView.project.projectName}"/>
+               </div>
+               <div>
+                  <b>Owner: </b> <h:outputText value="#{projectView.project.user}"/>
+               </div>
+               <div>
+                  <b>Created: </b> <h:outputText value="#{projectView.project.creationDate}"/>
+               </div>
+               <div>
+                  <b>Project description:</b><br/>
+                  <h:outputText value="#{projectView.project.projectDescription}"/>
+               </div>
+            </div>
+            <div>
+               <h3>Tickets:</h3>
+               <h:dataTable value="#{projectView.project.tickets}" var="ticket">
+                  <h:column>
+                     <f:facet name="header">Ticket Key</f:facet>
+                     <h:outputText value="#{ticket.ticketKey}"/>
+                  </h:column>
+                  <h:column>
+                     <f:facet name="header">Ticket Summary</f:facet>
+                     <h:outputText value="#{ticket.ticketSummary}"/>
+                  </h:column>
+                  <h:column>
+                     <f:facet name="header">View</f:facet>
+                     <h:link outcome="/ticket/ticket_view.xhtml" value="View">
+                        <f:param name="ticketKey" value="#{ticket.ticketKey}"/>
+                     </h:link>
+                  </h:column>
+                  <h:column>
+                     <f:facet name="header">Edit</f:facet>
+                     <h:link outcome="/ticket/ticket_edit.xhtml" value="Edit">
+                        <f:param name="ticketKey" value="#{ticket.ticketKey}"/>
+                     </h:link>
+                  </h:column>
+                  <h:column>
+                     <f:facet name="header">Delete</f:facet>
+                     <h:form>
+                        <h:commandButton styleClass="ui-button ui-control" value="Delete"
+                                         action="#{projectView.deleteAction(ticket)}"/>
+                     </h:form>
+                  </h:column>
+               </h:dataTable>
+            </div>
+            <div>
+               <f:facet name="header">Create new ticket</f:facet>
+               <h:link outcome="/ticket/ticket_create.xhtml" value="Create new ticket">
+                  <f:param name="ticketKey" value="#{ticket.ticketKey}"/>
+               </h:link>
+            </div>
+         </article>
+      </h:panelGroup>
+   </ui:define>
+</ui:composition>

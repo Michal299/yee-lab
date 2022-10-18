@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{ticketCreate.init}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <h:panelGroup layout="block">
+            <article>
+                <h:form>
+                    <h:outputLabel for="ticketKey" value="Key: "/>
+                    <h:inputText id="ticketKey" value="#{ticketCreate.ticket.ticketKey}"/>
+                    <br/>
+
+                    <h:outputLabel for="ticketSummary" value="Summary: "/>
+                    <h:inputText id="ticketSummary" value="#{ticketCreate.ticket.summary}"/>
+                    <br/>
+
+                    <h:outputLabel for="description" value="Description: "/>
+                    <h:inputTextarea id="description" value="#{ticketCreate.ticket.description}"/>
+                    <br/>
+
+                    <h:outputLabel for="project" value="Project: "/>
+                    <h:selectOneListbox id="project" value="#{ticketCreate.ticket.project}">
+                        <f:selectItems var="project" value="#{ticketCreate.projects}"
+                            itemValue="#{project}"
+                            itemLabel="#{project.projectName}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+
+                    <h:outputLabel for="priority" value="Priority: "/>
+                    <h:selectOneListbox id="priority" value="#{ticketCreate.ticket.priority}">
+                        <f:selectItems var="priority" value="#{ticketCreate.priorities}"
+                                       itemValue="#{priority}"
+                                       itemLabel="#{priority.priority}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+
+                    <h:outputLabel for="creator" value="Creator: "/>
+                    <h:selectOneListbox id="creator" value="#{ticketCreate.ticket.creator}">
+                        <f:selectItems var="creator" value="#{ticketCreate.users}"
+                                       itemValue="#{creator}"
+                                        itemLabel="#{creator.nickname}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+
+                    <h:outputLabel for="assignee" value="Assignee: "/>
+                    <h:selectOneListbox id="assignee" value="#{ticketCreate.ticket.assignee}">
+                        <f:selectItems var="assignee" value="#{ticketCreate.users}"
+                                       itemValue="#{assignee}"
+                                       itemLabel="#{assignee.nickname}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+                    <h:commandButton class="ui-button ui-control" value="Create"
+                                     action="#{ticketCreate.saveAction()}"/>
+                </h:form>
+            </article>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
