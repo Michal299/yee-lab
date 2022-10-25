@@ -13,11 +13,13 @@
         <meta name="keywords" content="todo"/>
         <meta name="author" content="Michał Błajet"/>
         <title>ToDo App</title>
+        <h:outputStylesheet library="default" name="css/styles.css"/>
     </h:head>
 
     <h:body>
         <div class="container">
             <div class="header">
+                <h:graphicImage library="default" name="images/logo.png" alt="Logo" class="logo"/>
                 <h1>ToDo App</h1>
             </div>
 
@@ -33,7 +35,7 @@
                 <ui:insert name="content"/>
             </section>
 
-            <footer>
+            <footer class="footer">
                 <p>Copyrights &#169; Michał Błajet</p>
             </footer>
         </div>

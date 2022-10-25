@@ -1,0 +1,60 @@
+.project__grid {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 350px;
+}
+
+.project__portrait {
+    grid-column: 4;
+    grid-row-start: 1;
+    grid-row-end: 8;
+}
+
+.project__level_profession {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.project__experience {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.project__health {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+.project__strength {
+    grid-column: 1;
+    grid-row: 2
+}
+
+.project__constitution {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.project__charisma {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.project__age {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+.project__background {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 6;
+    grid-row-end: 8;
+}
+
+.project__stat {
+    text-align: center;
+}
+
+.project__stat span {
+    display: block;
+}

@@ -1,20 +1,27 @@
 package pl.edu.pg.s180564.ticket;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import pl.edu.pg.s180564.project.Project;
 import pl.edu.pg.s180564.user.entity.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Ticket {
-    private final String ticketKey;
-    private final String summary;
-    private final String description;
-    private final User creator;
-    private final User assignee;
-    private final LocalDateTime creationTime;
-    private final Project project;
-    private final PriorityType priorityType;
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+public class Ticket implements Serializable {
+    private String ticketKey;
+    private String summary;
+    private String description;
+    private User creator;
+    private User assignee;
+    private LocalDateTime creationTime;
+    private Project project;
+    private PriorityType priorityType;
 
     public Ticket(final String ticketKey,
                   final String summary,
