@@ -3,7 +3,6 @@ package pl.edu.pg.s180564.project.service;
 import lombok.NoArgsConstructor;
 import pl.edu.pg.s180564.project.Project;
 import pl.edu.pg.s180564.project.repository.ProjectRepository;
-import pl.edu.pg.s180564.ticket.repository.TicketRepository;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 
 import javax.enterprise.context.ApplicationScoped;

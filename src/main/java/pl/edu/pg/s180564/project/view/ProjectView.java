@@ -7,6 +7,7 @@ import pl.edu.pg.s180564.project.service.ProjectService;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 
-@RequestScoped
+@SessionScoped
 @Named
 public class ProjectView implements Serializable {
 
