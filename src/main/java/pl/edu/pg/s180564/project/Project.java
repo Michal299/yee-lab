@@ -1,19 +1,24 @@
 package pl.edu.pg.s180564.project;
 
+import lombok.Getter;
+import lombok.Setter;
 import pl.edu.pg.s180564.ticket.Ticket;
 import pl.edu.pg.s180564.user.entity.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Project {
-    private final String projectName;
-    private final String projectKey;
-    private final String description;
-    private final User owner;
-    private final LocalDateTime creationDate;
-    private final List<Ticket> tickets;
+@Setter
+@Getter
+public class Project implements Serializable {
+    private String projectName;
+    private String projectKey;
+    private String description;
+    private User owner;
+    private LocalDateTime creationDate;
+    private List<Ticket> tickets;
 
     public Project(final String projectName,
                    final String projectKey,
@@ -27,30 +32,6 @@ public class Project {
         this.owner = owner;
         this.creationDate = creationDate;
         this.tickets = tickets;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public String getProjectKey() {
-        return projectKey;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
     }
 
     @Override

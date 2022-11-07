@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="ticketKey" value="#{ticketEdit.ticketKey}" required="true"/>
+        <f:viewAction action="#{ticketEdit.init()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <h:panelGroup layout="block">
+
+            <article class="text--justified">
+
+                <header><h2>Edit ticket info</h2></header>
+
+                <h:form>
+                    <b><h:outputLabel for="summary" value="Summary: "/></b>
+                    <h:inputText id="summary" value="#{ticketEdit.ticket.summary}"/>
+                    <br/>
+
+                    <b><h:outputLabel for="description" value="Description: "/></b>
+                    <h:inputTextarea id="description" value="#{ticketEdit.ticket.description}"/>
+                    <br/>
+
+                    <b><h:outputLabel for="assignee" value="Assignee: "/></b>
+                    <h:selectOneListbox id="assignee" value="#{ticketEdit.ticket.assignee}">
+                        <f:selectItems var="assignee" value="#{ticketEdit.users}"
+                                       itemValue="#{assignee}"
+                                       itemLabel="#{assignee.nickname}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+
+                    <b><h:outputLabel for="priority" value="Priority: "/></b>
+                    <h:selectOneListbox id="priority" value="#{ticketEdit.ticket.priority}">
+                        <f:selectItems var="priority" value="#{ticketEdit.priorities}"
+                                       itemValue="#{priority}"
+                                       itemLabel="#{priority.priority}" itemLabelEscaped="false"/>
+                    </h:selectOneListbox>
+                    <br/>
+
+                    <h:commandButton class="ui-button ui-control" value="Save"
+                                     action="#{ticketEdit.saveAction()}"/>
+
+                </h:form>
+            </article>
+
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
