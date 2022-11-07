@@ -1,9 +1,10 @@
-package pl.edu.pg.s180564.user;
+package pl.edu.pg.s180564.user.entity;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private final String nickname;
     private final String password;
     private final String mail;
