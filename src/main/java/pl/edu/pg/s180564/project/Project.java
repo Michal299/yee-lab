@@ -1,5 +1,6 @@
 package pl.edu.pg.s180564.project;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import pl.edu.pg.s180564.ticket.Ticket;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@Builder
 public class Project implements Serializable {
     private String projectName;
     private String projectKey;
