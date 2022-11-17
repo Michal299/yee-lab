@@ -1,47 +1,54 @@
 package pl.edu.pg.s180564.ticket.repository;
 
-import pl.edu.pg.s180564.datastore.InMemoryDatastore;
 import pl.edu.pg.s180564.repository.Repository;
 import pl.edu.pg.s180564.ticket.Ticket;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@Dependent
+@RequestScoped
 public class TicketRepository implements Repository<Ticket, String> {
 
-    private final InMemoryDatastore datastore;
+    private EntityManager em;
 
-    @Inject
-    public TicketRepository(final InMemoryDatastore datastore) {
-        this.datastore = datastore;
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public Optional<Ticket> find(String id) {
-        return datastore.getTicket(id);
+        return Optional.ofNullable(em.find(Ticket.class, id));
     }
 
     @Override
     public List<Ticket> findAll() {
-        return datastore.getAllTickets();
+        return em.createQuery("select ticket from Ticket ticket", Ticket.class).getResultList();
     }
 
     @Override
     public String create(Ticket entity) {
-        datastore.addTicket(entity);
+        em.persist(entity);
+//        System.out.println(em.getFlushMode());
+//        em.flush();
         return entity.getTicketKey();
     }
 
     @Override
     public void delete(Ticket entity) {
-        datastore.deleteTicket(entity.getTicketKey());
+        em.remove(find(entity.getTicketKey()).get());
     }
 
     @Override
     public void update(Ticket entity) {
-        datastore.addTicket(entity);
+        em.merge(entity);
+    }
+
+    @Override
+    public void detach(Ticket entity) {
+        em.detach(entity);
     }
 }

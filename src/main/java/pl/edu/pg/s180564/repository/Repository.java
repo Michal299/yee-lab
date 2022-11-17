@@ -9,4 +9,5 @@ public interface Repository<T, K> {
     K create(T entity);
     void delete(T entity);
     void update(T entity);
+    void detach(T entity);
 }

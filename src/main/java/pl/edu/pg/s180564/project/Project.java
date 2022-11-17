@@ -1,74 +1,52 @@
 package pl.edu.pg.s180564.project;
 
-import lombok.Builder;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import pl.edu.pg.s180564.ticket.Ticket;
 import pl.edu.pg.s180564.user.entity.User;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
-@Setter
 @Getter
-@Builder
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+@EqualsAndHashCode
+@Entity
+@Table(name = "projects")
 public class Project implements Serializable {
+
     private String projectName;
+
+    @Id
     private String projectKey;
+
     private String description;
+
+    @OneToOne
     private User owner;
+
     private LocalDateTime creationDate;
-    private List<Ticket> tickets;
 
-    public Project(final String projectName,
-                   final String projectKey,
-                   final String description,
-                   final User owner,
-                   final LocalDateTime creationDate,
-                   final List<Ticket> tickets) {
-        this.projectName = projectName;
-        this.projectKey = projectKey;
-        this.description = description;
-        this.owner = owner;
-        this.creationDate = creationDate;
-        this.tickets = tickets;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return Objects.equals(projectName, project.projectName)
-                && Objects.equals(projectKey, project.projectKey)
-                && Objects.equals(description, project.description)
-                && Objects.equals(owner, project.owner)
-                && Objects.equals(creationDate, project.creationDate)
-                && Objects.equals(tickets, project.tickets);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(projectName,
-                projectKey,
-                description,
-                owner,
-                creationDate,
-                tickets
-        );
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectName='" + projectName + '\'' +
-                ", projectKey='" + projectKey + '\'' +
-                ", description='" + description + '\'' +
-                ", owner=" + owner +
-                ", creationDate=" + creationDate +
-                ", tickets=" + tickets +
-                '}';
-    }
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Set<Ticket> tickets;
 }

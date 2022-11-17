@@ -7,6 +7,7 @@ import pl.edu.pg.s180564.ticket.service.TicketService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,18 +33,19 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    @Transactional
     public String create(Project entity) {
         projectRepository.create(entity);
         return entity.getProjectKey();
     }
 
+    @Transactional
     public void delete(String entityId) {
         final var project = projectRepository.find(entityId).orElseThrow();
-        project.getTickets()
-                .forEach(ticket -> ticketService.delete(ticket.getTicketKey()));
         projectRepository.delete(project);
     }
 
+    @Transactional
     public void update(Project entity) {
         projectRepository.update(entity);
     }

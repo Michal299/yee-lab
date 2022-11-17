@@ -1,47 +1,52 @@
 package pl.edu.pg.s180564.project.repository;
 
-import pl.edu.pg.s180564.datastore.InMemoryDatastore;
 import pl.edu.pg.s180564.project.Project;
 import pl.edu.pg.s180564.repository.Repository;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@Dependent
+@RequestScoped
 public class ProjectRepository implements Repository<Project, String> {
 
-    private final InMemoryDatastore datastore;
+    private EntityManager em;
 
-    @Inject
-    public ProjectRepository(final InMemoryDatastore datastore) {
-        this.datastore = datastore;
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public Optional<Project> find(String id) {
-        return datastore.getProject(id);
+        return Optional.ofNullable(em.find(Project.class, id));
     }
 
     @Override
     public List<Project> findAll() {
-        return datastore.getAllProjects();
+        return em.createQuery("select project from Project project", Project.class).getResultList();
     }
 
     @Override
     public String create(Project entity) {
-        datastore.addProject(entity);
+        em.persist(entity);
         return entity.getProjectKey();
     }
 
     @Override
     public void delete(Project entity) {
-        datastore.deleteProject(entity.getProjectKey());
+        em.remove(find(entity.getProjectKey()).get());
     }
 
     @Override
     public void update(Project entity) {
-        datastore.addProject(entity);
+        em.merge(entity);
+    }
+
+    @Override
+    public void detach(Project entity) {
+        em.detach(entity);
     }
 }
