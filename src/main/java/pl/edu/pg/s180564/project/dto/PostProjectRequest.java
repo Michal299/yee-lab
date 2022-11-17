@@ -13,6 +13,7 @@ import pl.edu.pg.s180564.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @Getter
@@ -37,7 +38,7 @@ public class PostProjectRequest {
             .description(request.description)
             .owner(userFunction.apply(request.ownerId))
             .creationDate(LocalDateTime.now())
-            .tickets(List.of())
+            .tickets(Set.of())
             .build();
     }
 }

@@ -14,7 +14,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Path("projects/{projectKey}/tickets")
 public class ProjectTicketController {
@@ -49,7 +51,7 @@ public class ProjectTicketController {
         if (maybeProject.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        final var tickets = maybeProject.get().getTickets();
+        final var tickets = new ArrayList<>(maybeProject.get().getTickets());
         return Response.ok(GetTicketsResponse.mapToResponse(tickets)).build();
     }
 

@@ -6,10 +6,13 @@ import pl.edu.pg.s180564.user.repository.UserRepository;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +40,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public String create(User entity) {
         userRepository.create(entity);
         final var avatar = entity.getAvatar();
@@ -47,31 +51,42 @@ public class UserService {
         return entity.getNickname();
     }
 
+    @Transactional
     public void delete(User entity) {
         userRepository.delete(entity);
     }
 
+    @Transactional
     public void update(User entity) {
         userRepository.update(entity);
     }
 
+    @Transactional
     public void deleteAvatar(User entity) {
-        final var updatedUser = new User(entity.getNickname(),
-                entity.getPassword(),
-                entity.getMail(),
-                new byte[0],
-                entity.getUserRole()
-        );
+        final var updatedUser = User.builder()
+                .nickname(entity.getNickname())
+                .password(entity.getPassword())
+                .mail(entity.getMail())
+                .avatar(new byte[0])
+                .userRole(entity.getUserRole())
+                .build();
 
         userRepository.update(updatedUser);
     }
 
+    @Transactional
     public void updateAvatar(final String userId, final InputStream avatarInputStream) {
         userRepository.find(userId).ifPresent(user -> {
             try {
                 final var newAvatar = avatarInputStream.readAllBytes();
                 saveAvatar(user.getNickname(), avatarInputStream);
-                final var updated = new User(user.getNickname(), user.getPassword(), user.getMail(), newAvatar, user.getUserRole());
+                final var updated = User.builder()
+                        .nickname(user.getNickname())
+                        .password(user.getPassword())
+                        .mail(user.getMail())
+                        .avatar(newAvatar)
+                        .userRole(user.getUserRole())
+                        .build();
                 userRepository.update(updated);
             } catch (IOException e) {
                 throw new RuntimeException(e);
