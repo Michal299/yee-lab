@@ -2,6 +2,7 @@ package pl.edu.pg.s180564.user.service;
 
 import lombok.NoArgsConstructor;
 import pl.edu.pg.s180564.user.entity.User;
+import pl.edu.pg.s180564.user.entity.UserRoleType;
 import pl.edu.pg.s180564.user.repository.UserRepository;
 
 import javax.annotation.Resource;
@@ -41,6 +42,10 @@ public class UserService {
     }
 
     public String create(User entity) {
+
+        // TODO cover authentication
+        entity.setUserRole(UserRoleType.USER);
+
         userRepository.create(entity);
         final var avatar = entity.getAvatar();
         if (avatar.length > 0) {

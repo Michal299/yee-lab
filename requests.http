@@ -2,11 +2,22 @@ GET http://localhost:9080/yee-lab/api/1/users
 
 ###
 
-GET http://localhost:9080/yee-lab/api/1/users/mscott/
+GET http://localhost:9080/yee-lab/api/1/users/mblajet/
 
 ###
 
-GET http://localhost:9080/yee-lab/api/1/avatars/mscott/
+POST http://localhost:9080/yee-lab/api/users
+Content-Type: application/json
+
+{
+  "nickname": "mblajet",
+  "password": "password",
+  "mail": "mblajet@mail.com"
+}
+
+###
+
+GET http://localhost:9080/yee-lab/api/1/avatars/mblajet/
 
 ###
 
@@ -18,7 +29,7 @@ GET http://localhost:9080/yee-lab/api/1/avatars/
 
 ###
 
-PUT http://localhost:9080/yee-lab/api/1/avatars/jhalpert
+PUT http://localhost:9080/yee-lab/api/1/avatars/mblajet
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary

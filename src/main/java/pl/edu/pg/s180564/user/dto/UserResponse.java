@@ -1,4 +1,4 @@
-package pl.edu.pg.s180564.user.response;
+package pl.edu.pg.s180564.user.dto;
 
 import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.entity.UserRoleType;

@@ -1,7 +1,8 @@
 package pl.edu.pg.s180564.user.servlet;
 
-import pl.edu.pg.s180564.user.response.AllUsersResponse;
-import pl.edu.pg.s180564.user.response.UserResponse;
+import pl.edu.pg.s180564.user.dto.AllUsersResponse;
+import pl.edu.pg.s180564.user.dto.PostUserRequest;
+import pl.edu.pg.s180564.user.dto.UserResponse;
 import pl.edu.pg.s180564.user.service.UserService;
 import pl.edu.pg.s180564.utils.ServletUtil;
 
@@ -48,6 +49,19 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        final var path = ServletUtil.getRequestPath(request);
+        final var servletPath = request.getServletPath();
+        log("[POST] " + servletPath + path);
+
+        if (path.isEmpty()) {
+            registerUser(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
+
     private void getAllUsers(final HttpServletRequest request,
                              final HttpServletResponse response) throws IOException {
         final var users = userService.findAll();
@@ -66,5 +80,12 @@ public class UserServlet extends HttpServlet {
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+
+    private void registerUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        final var userRequest = jsonb.fromJson(request.getReader(), PostUserRequest.class);
+        final var user = PostUserRequest.mapRequestToObject(userRequest);
+        userService.create(user);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

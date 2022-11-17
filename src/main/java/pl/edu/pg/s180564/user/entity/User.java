@@ -29,7 +29,7 @@ public class User implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private byte[] avatar;
+    private byte[] avatar = new byte[0];
 
     private UserRoleType userRole;
 }
