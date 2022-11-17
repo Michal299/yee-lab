@@ -1,12 +1,13 @@
 package pl.edu.pg.s180564.user.service;
 
+import lombok.NoArgsConstructor;
 import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.repository.UserRepository;
 
 import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,20 +17,19 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
+@Stateless
+@LocalBean
+@NoArgsConstructor
 public class UserService {
 
     private UserRepository userRepository;
 
     @Resource(name = "avatars.localization")
     private String avatarsLocation;
+
     @Inject
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public UserService() {
-
     }
 
     public Optional<User> find(String id) {
@@ -40,7 +40,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    @Transactional
     public String create(User entity) {
         userRepository.create(entity);
         final var avatar = entity.getAvatar();
@@ -51,17 +50,14 @@ public class UserService {
         return entity.getNickname();
     }
 
-    @Transactional
     public void delete(User entity) {
         userRepository.delete(entity);
     }
 
-    @Transactional
     public void update(User entity) {
         userRepository.update(entity);
     }
 
-    @Transactional
     public void deleteAvatar(User entity) {
         final var updatedUser = User.builder()
                 .nickname(entity.getNickname())
@@ -74,7 +70,6 @@ public class UserService {
         userRepository.update(updatedUser);
     }
 
-    @Transactional
     public void updateAvatar(final String userId, final InputStream avatarInputStream) {
         userRepository.find(userId).ifPresent(user -> {
             try {
