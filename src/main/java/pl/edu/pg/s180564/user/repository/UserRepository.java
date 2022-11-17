@@ -3,13 +3,13 @@ package pl.edu.pg.s180564.user.repository;
 import pl.edu.pg.s180564.repository.Repository;
 import pl.edu.pg.s180564.user.entity.User;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class UserRepository implements Repository<User, String> {
 
     private EntityManager em;

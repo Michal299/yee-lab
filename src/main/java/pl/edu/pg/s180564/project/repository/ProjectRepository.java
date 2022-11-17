@@ -3,13 +3,13 @@ package pl.edu.pg.s180564.project.repository;
 import pl.edu.pg.s180564.project.Project;
 import pl.edu.pg.s180564.repository.Repository;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class ProjectRepository implements Repository<Project, String> {
 
     private EntityManager em;

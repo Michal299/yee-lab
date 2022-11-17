@@ -3,13 +3,13 @@ package pl.edu.pg.s180564.ticket.repository;
 import pl.edu.pg.s180564.repository.Repository;
 import pl.edu.pg.s180564.ticket.Ticket;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class TicketRepository implements Repository<Ticket, String> {
 
     private EntityManager em;
