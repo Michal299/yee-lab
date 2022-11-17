@@ -13,6 +13,7 @@ import pl.edu.pg.s180564.ticket.model.UserModel;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 import pl.edu.pg.s180564.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
@@ -48,18 +49,27 @@ public class TicketCreate implements Serializable {
     @Getter
     private List<PriorityModel> priorities;
 
+    private Conversation conversation;
+
     @Inject
-    public TicketCreate(final TicketService ticketService,
-                        final UserService userService,
-                        final ProjectService projectService,
-                        Conversation conversation) {
-        this.projectService = projectService;
-        this.ticketService = ticketService;
-        this.userService = userService;
+    public TicketCreate(Conversation conversation) {
         this.conversation = conversation;
     }
 
-    private Conversation conversation;
+    @EJB
+    public void setTicketService(final TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
+    @EJB
+    public void setUserService(final UserService userService) {
+        this.userService = userService;
+    }
+
+    @EJB
+    public void setProjectService(final ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     public void init() {
         projects = projectService.findAll().stream()

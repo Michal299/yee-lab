@@ -9,9 +9,9 @@ import pl.edu.pg.s180564.ticket.model.UserModel;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 import pl.edu.pg.s180564.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @Named
 @ViewScoped
 public class TicketEdit implements Serializable {
-    private final TicketService ticketService;
-    private final UserService userService;
+    private TicketService ticketService;
+    private UserService userService;
 
     @Getter
     @Setter
@@ -40,10 +40,16 @@ public class TicketEdit implements Serializable {
     @Getter
     private TicketEditModel ticket;
 
-    @Inject
-    public TicketEdit(final TicketService ticketService,
-                      final UserService userService) {
+    public TicketEdit() {
+    }
+
+    @EJB
+    public void setTicketService(final TicketService ticketService) {
         this.ticketService = ticketService;
+    }
+
+    @EJB
+    public void setUserService(final UserService userService) {
         this.userService = userService;
     }
 

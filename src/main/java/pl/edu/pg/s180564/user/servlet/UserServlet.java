@@ -5,7 +5,7 @@ import pl.edu.pg.s180564.user.response.UserResponse;
 import pl.edu.pg.s180564.user.service.UserService;
 import pl.edu.pg.s180564.utils.ServletUtil;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.servlet.ServletException;
@@ -18,18 +18,21 @@ import java.io.IOException;
 @WebServlet(urlPatterns = UserServletPaths.USERS_PATH + "/*")
 public class UserServlet extends HttpServlet {
 
-    private final UserService userService;
+    private UserService userService;
     private final Jsonb jsonb = JsonbBuilder.create();
 
-    @Inject
-    public UserServlet(final UserService userService) {
+    public UserServlet() {
+    }
+
+    @EJB
+    public void setUserService(final UserService userService) {
         this.userService = userService;
     }
 
     public static final class Patterns {
         public static final String USER = "^/[a-zA-Z0-9]*/?";
-
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final var path = ServletUtil.getRequestPath(req);

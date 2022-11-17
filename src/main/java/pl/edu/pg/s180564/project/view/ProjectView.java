@@ -6,10 +6,9 @@ import pl.edu.pg.s180564.project.model.ProjectModel;
 import pl.edu.pg.s180564.project.service.ProjectService;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,8 +18,8 @@ import java.io.Serializable;
 @Named
 public class ProjectView implements Serializable {
 
-    private final ProjectService projectService;
-    private final TicketService ticketService;
+    private ProjectService projectService;
+    private TicketService ticketService;
 
     @Getter
     @Setter
@@ -29,10 +28,16 @@ public class ProjectView implements Serializable {
     @Getter
     private ProjectModel project;
 
-    @Inject
-    public ProjectView(final ProjectService projectService,
-                       final TicketService ticketService) {
+    public ProjectView() {
+    }
+
+    @EJB
+    public void setProjectService(final ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    @EJB
+    public void setTicketService(final TicketService ticketService) {
         this.ticketService = ticketService;
     }
 

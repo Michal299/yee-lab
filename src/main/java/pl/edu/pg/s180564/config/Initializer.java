@@ -9,40 +9,42 @@ import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.entity.UserRoleType;
 import pl.edu.pg.s180564.user.service.UserService;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.context.control.RequestContextController;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
-@ApplicationScoped
-public final class Initializer {
+@Singleton
+@Startup
+@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
+public class Initializer {
 
-    private final UserService userService;
-    private final ProjectService projectService;
-    private final TicketService ticketService;
-    private final RequestContextController requestContextController;
+    private UserService userService;
+    private ProjectService projectService;
+    private TicketService ticketService;
 
-    @Inject
-    public Initializer(final UserService userService,
-                       final ProjectService projectService,
-                       final TicketService ticketService,
-                       final RequestContextController requestContextController) {
+    @EJB
+    public void setUserService(final UserService userService) {
         this.userService = userService;
+    }
+
+    @EJB
+    public void setProjectService(final ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    @EJB
+    public void setTicketService(final TicketService ticketService) {
         this.ticketService = ticketService;
-        this.requestContextController = requestContextController;
     }
 
-    public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        init();
-    }
-
+    @PostConstruct
     private synchronized void init() {
-        requestContextController.activate();
 
         var jhalpert = User.builder()
                 .nickname("jhalpert")
@@ -88,6 +90,8 @@ public final class Initializer {
                 .owner(mscott)
                 .creationDate(LocalDateTime.now())
                 .build();
+
+
         var projectSales = Project.builder()
                 .projectKey("SL")
                 .projectName("Sales")
@@ -131,7 +135,6 @@ public final class Initializer {
         ticketService.create(firstAdministrationTicket);
         ticketService.create(secondAdministrationTicket);
         ticketService.create(firstSalesTicket);
-        requestContextController.deactivate();
     }
 
     private byte[] getResourceAsByteArray(String name) {

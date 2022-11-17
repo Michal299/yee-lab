@@ -5,9 +5,9 @@ import lombok.Setter;
 import pl.edu.pg.s180564.ticket.model.TicketViewModel;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @RequestScoped
 public class TicketView {
 
-    private final TicketService ticketService;
+    private TicketService ticketService;
 
     @Getter
     @Setter
@@ -25,8 +25,11 @@ public class TicketView {
     @Getter
     private TicketViewModel ticket;
 
-    @Inject
-    public TicketView(final TicketService ticketService) {
+    public TicketView() {
+    }
+
+    @EJB
+    public void setTicketService(final TicketService ticketService) {
         this.ticketService = ticketService;
     }
 

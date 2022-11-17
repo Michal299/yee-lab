@@ -7,7 +7,7 @@ import pl.edu.pg.s180564.project.service.ProjectService;
 import pl.edu.pg.s180564.project.dto.PutProjectRequest;
 import pl.edu.pg.s180564.user.service.UserService;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,12 +30,12 @@ public class ProjectController {
 
     }
 
-    @Inject
+    @EJB
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
     }
 
-    @Inject
+    @EJB
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

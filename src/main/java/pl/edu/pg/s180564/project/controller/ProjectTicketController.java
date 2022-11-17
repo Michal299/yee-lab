@@ -9,6 +9,7 @@ import pl.edu.pg.s180564.ticket.dto.PutTicketRequest;
 import pl.edu.pg.s180564.ticket.service.TicketService;
 import pl.edu.pg.s180564.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,17 +30,17 @@ public class ProjectTicketController {
 
     }
 
-    @Inject
+    @EJB
     public void setTicketService(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 
-    @Inject
+    @EJB
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
     }
 
-    @Inject
+    @EJB
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

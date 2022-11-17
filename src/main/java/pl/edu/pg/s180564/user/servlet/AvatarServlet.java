@@ -4,7 +4,7 @@ import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.service.UserService;
 import pl.edu.pg.s180564.utils.ServletUtil;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +18,13 @@ import java.io.IOException;
 @MultipartConfig(maxFileSize = 1024 * 1024)
 public class AvatarServlet extends HttpServlet {
 
-    private final UserService userService;
+    private UserService userService;
 
-    @Inject
-    public AvatarServlet(final UserService userService) {
+    public AvatarServlet() {
+    }
+
+    @EJB
+    public void setUserService(final UserService userService) {
         this.userService = userService;
     }
 

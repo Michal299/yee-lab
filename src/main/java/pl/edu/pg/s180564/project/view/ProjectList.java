@@ -3,9 +3,9 @@ package pl.edu.pg.s180564.project.view;
 import pl.edu.pg.s180564.project.model.ProjectsListModel;
 import pl.edu.pg.s180564.project.service.ProjectService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -13,12 +13,15 @@ import java.io.Serializable;
 @Named
 public class ProjectList implements Serializable {
 
-    private final ProjectService projectService;
+    private ProjectService projectService;
 
     private ProjectsListModel projects;
 
-    @Inject
-    public ProjectList(final ProjectService projectService) {
+    public ProjectList() {
+    }
+
+    @EJB
+    public void setProjectService(final ProjectService projectService) {
         this.projectService = projectService;
     }
 
