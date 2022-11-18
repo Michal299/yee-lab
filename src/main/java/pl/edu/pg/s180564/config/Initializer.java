@@ -1,87 +1,85 @@
 package pl.edu.pg.s180564.config;
 
 import pl.edu.pg.s180564.project.Project;
-import pl.edu.pg.s180564.project.service.ProjectService;
 import pl.edu.pg.s180564.ticket.PriorityType;
 import pl.edu.pg.s180564.ticket.Ticket;
-import pl.edu.pg.s180564.ticket.service.TicketService;
 import pl.edu.pg.s180564.user.entity.User;
 import pl.edu.pg.s180564.user.entity.UserRoleType;
-import pl.edu.pg.s180564.user.service.UserService;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Singleton
 @Startup
-@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
 public class Initializer {
 
-    private UserService userService;
-    private ProjectService projectService;
-    private TicketService ticketService;
+    private EntityManager em;
 
-    @EJB
-    public void setUserService(final UserService userService) {
-        this.userService = userService;
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
-    @EJB
-    public void setProjectService(final ProjectService projectService) {
-        this.projectService = projectService;
+    private Pbkdf2PasswordHash pbkdf;
+
+    @Inject
+    public Initializer(Pbkdf2PasswordHash pbkdf) {
+        this.pbkdf = pbkdf;
     }
 
-    @EJB
-    public void setTicketService(final TicketService ticketService) {
-        this.ticketService = ticketService;
+    public Initializer() {
+
     }
+
 
     @PostConstruct
     private synchronized void init() {
 
         var jhalpert = User.builder()
                 .nickname("jhalpert")
-                .password("pam1234")
+                .password(pbkdf.generate("pam1234".toCharArray()))
                 .mail("jhalpert@office.com")
                 .avatar(getResourceAsByteArray("avatars/jhalpert.png"))
-                .userRole(UserRoleType.USER)
+                .userRoles(List.of(UserRoleType.USER))
                 .build();
 
         var pbeasly = User.builder()
                 .nickname("pbeasly")
-                .password("jim4321")
+                .password(pbkdf.generate("jim4321".toCharArray()))
                 .mail("pbeasly@office.com")
                 .avatar(getResourceAsByteArray("avatars/pbeasly.png"))
-                .userRole(UserRoleType.USER)
+                .userRoles(List.of(UserRoleType.USER))
                 .build();
 
         var dschrute = User.builder()
                 .nickname("dschrute")
-                .password("zaq12wsx3edcv")
+                .password(pbkdf.generate("zaq12wsx3edcv".toCharArray()))
                 .mail("dschrute@office.com")
                 .avatar(getResourceAsByteArray("avatars/dschrute.png"))
-                .userRole(UserRoleType.USER)
+                .userRoles(List.of(UserRoleType.USER))
                 .build();
 
         var mscott = User.builder()
                 .nickname("mscott")
-                .password("admin")
+                .password(pbkdf.generate("admin".toCharArray()))
                 .mail("mscott@office.com")
                 .avatar(getResourceAsByteArray("avatars/mscott.png"))
-                .userRole(UserRoleType.ADMIN)
+                .userRoles(List.of(UserRoleType.ADMIN, UserRoleType.USER))
                 .build();
 
-        userService.create(jhalpert);
-        userService.create(pbeasly);
-        userService.create(dschrute);
-        userService.create(mscott);
+        em.persist(jhalpert);
+        em.persist(pbeasly);
+        em.persist(dschrute);
+        em.persist(mscott);
 
         var projectAdministration = Project.builder()
                 .projectKey("ADM")
@@ -99,8 +97,8 @@ public class Initializer {
                 .owner(dschrute)
                 .creationDate(LocalDateTime.now())
                 .build();
-        projectService.create(projectAdministration);
-        projectService.create(projectSales);
+        em.persist(projectAdministration);
+        em.persist(projectSales);
 
         var firstAdministrationTicket = Ticket.builder()
                 .ticketKey("ADM-1")
@@ -132,9 +130,9 @@ public class Initializer {
                 .project(projectSales)
                 .priorityType(PriorityType.HIGH)
                 .build();
-        ticketService.create(firstAdministrationTicket);
-        ticketService.create(secondAdministrationTicket);
-        ticketService.create(firstSalesTicket);
+        em.persist(firstAdministrationTicket);
+        em.persist(secondAdministrationTicket);
+        em.persist(firstSalesTicket);
     }
 
     private byte[] getResourceAsByteArray(String name) {

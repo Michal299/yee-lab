@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -31,5 +32,8 @@ public class User implements Serializable {
     @EqualsAndHashCode.Exclude
     private byte[] avatar = new byte[0];
 
-    private UserRoleType userRole;
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> userRoles;
 }

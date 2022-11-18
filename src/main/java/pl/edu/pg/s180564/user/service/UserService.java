@@ -44,7 +44,7 @@ public class UserService {
     public String create(User entity) {
 
         // TODO cover authentication
-        entity.setUserRole(UserRoleType.USER);
+        entity.setUserRoles(List.of(UserRoleType.USER));
 
         userRepository.create(entity);
         final var avatar = entity.getAvatar();
@@ -69,7 +69,7 @@ public class UserService {
                 .password(entity.getPassword())
                 .mail(entity.getMail())
                 .avatar(new byte[0])
-                .userRole(entity.getUserRole())
+                .userRoles(entity.getUserRoles())
                 .build();
 
         userRepository.update(updatedUser);
@@ -85,7 +85,7 @@ public class UserService {
                         .password(user.getPassword())
                         .mail(user.getMail())
                         .avatar(newAvatar)
-                        .userRole(user.getUserRole())
+                        .userRoles(user.getUserRoles())
                         .build();
                 userRepository.update(updated);
             } catch (IOException e) {

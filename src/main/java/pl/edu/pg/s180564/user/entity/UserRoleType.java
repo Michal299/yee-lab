@@ -1,6 +1,6 @@
 package pl.edu.pg.s180564.user.entity;
 
-public enum UserRoleType {
-    ADMIN,
-    USER
+public class UserRoleType {
+    public final static String ADMIN = "admin";
+    public final static String USER = "user";
 }
